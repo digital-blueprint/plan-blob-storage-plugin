@@ -1,0 +1,37 @@
+{
+    "name": "dbp/kanboard-plugin-blob",
+    "type": "library",
+    "license": "LGPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Kanboard\\Plugin\\Blob\\": "."
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "discard-changes": true
+    },
+    "require": {
+        "dbp/relay-blob-library": "^0.1.7",
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "repositories":[
+        {
+            "type": "vcs",
+            "url": "git@github.com:kanboard/kanboard.git"
+        }
+    ],
+    "scripts": {
+        "lint": [
+            "@php vendor/bin/phpstan analyze --ansi"
+        ]
+    }
+}
