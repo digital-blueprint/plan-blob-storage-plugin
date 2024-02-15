@@ -2,17 +2,25 @@
     <i class="fa fa-file fa-fw" aria-hidden="true"></i>
     Blob File Storage
 </h3>
-<div class="panel">
-    <?php echo $this->form->label(t('Blob key'), 'blob_key') ?>
-    <?php echo $this->form->text('blob_key', $values) ?>
+<div class="panel blob-config-panel" id="blob-config-panel">
+    <formgroup class="form-group" id="blob settings">
+        <?php echo $this->form->label(t('Blob key'), 'blob_key') ?>
+        <?php echo $this->form->text('blob_key', $values) ?>
 
-    <?php echo $this->form->label(t('Blob bucket ID'), 'blob_bucket_id') ?>
-    <?php echo $this->form->text('blob_bucket_id', $values) ?>
+        <?php echo $this->form->label(t('Blob bucket ID'), 'blob_bucket_id') ?>
+        <?php echo $this->form->text('blob_bucket_id', $values) ?>
 
-    <?php echo $this->form->label(t('Blob API host'), 'blob_api_host') ?>
-    <?php echo $this->form->text('blob_api_host', $values) ?>
+        <?php echo $this->form->label(t('Blob API host'), 'blob_api_host') ?>
+        <?php echo $this->form->text('blob_api_host', $values) ?>
 
-    <p class="form-help"><a href="https://github.com/digital-blueprint/relay-blob-library#usage" target="_blank"><?php echo t('Help on Blob Library configuration') ?></a></p>
+        <p class="form-help"><a href="https://github.com/digital-blueprint/relay-blob-library#usage" target="_blank"><?php echo t('Help on Blob Library configuration') ?></a></p>
+    </formgroup>
+
+    <formgroup class="form-group" id="blob settings">
+        <?php echo $this->form->label(t('Allowed MIME types to upload'), 'blob_allowed_mime_types') ?>
+        <?php echo $this->form->textarea('blob_allowed_mime_types', $values) ?>
+        <p class="form-help"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types" target="_blank"><?php echo t('Help on MIME types') ?></a></p>
+    </formgroup>
 
     <div class="form-actions">
         <button class="btn btn-blue"><?php echo t('Save') ?></button>

@@ -146,4 +146,20 @@ class Plugin extends Base
 
         return $this->configModel->get('blob_api_host');
     }
+
+    /**
+     * Get config blob allowed MIME types
+     *
+     * @access private
+     *
+     * @return string
+     */
+    private function getConfigBlobAllowedMimeTypes()
+    {
+        if (defined('BLOB_ALLOWED_MIME_TYPES') && BLOB_ALLOWED_MIME_TYPES) {
+            return BLOB_ALLOWED_MIME_TYPES;
+        }
+
+        return $this->configModel->get('blob_allowed_mime_types');
+    }
 }

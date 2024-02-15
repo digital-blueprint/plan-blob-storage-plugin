@@ -128,7 +128,6 @@ class BlobHelper extends Base
         try {
             $mimeType = false;
 
-
             if (is_readable($file)) { // php7 exception on image "stream" && php 8 return false
                 // Regular files: pdf, xlxs, docx.
                 $mimeType = finfo_file($finfo, $file);
@@ -145,21 +144,14 @@ class BlobHelper extends Base
 
         finfo_close($finfo);
 
-        return in_array($mimeType, self::VALID_TYPES);
+        $instance = new self($GLOBALS['container']);
+        $allowed_mime_types = $instance->getAllowedMimeTypes();
+
+        return in_array($mimeType, $allowed_mime_types);
     }
 
-    function isResource($resource) {
-        if (is_resource($resource)) {
-            $resourceType = get_resource_type($resource);
-            if ($resourceType === 'stream') {
-                echo "This is a stream resource.";
-            } else {
-                echo "This is a resource but not a stream.";
-            }
-        } elseif (is_string($resource)) {
-            echo "This is a string.";
-        } else {
-            echo "This is not a valid resource or string.";
-        }
+    public function getAllowedMimeTypes() :array {
+        $allowed_mime_types = explode(',', str_replace(array("\r", "\n"), '', $this->configModel->get('blob_allowed_mime_types')));
+        return $allowed_mime_types;
     }
 }
