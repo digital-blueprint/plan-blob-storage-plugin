@@ -21,6 +21,7 @@ class BlobHelper extends Base
 {
     /**
      * An array of valid MIME types for file uploads.
+     * Defaults if no MIME type is specified in config form.
      */
     const VALID_TYPES = [
         'text/plain',
@@ -150,8 +151,21 @@ class BlobHelper extends Base
         return in_array($mimeType, $allowed_mime_types);
     }
 
+    /*
+     * Get all supported mime types from config and return them as an array.
+     *
+     * @return array
+     */
     public function getAllowedMimeTypes() :array {
-        $allowed_mime_types = explode(',', str_replace(array("\r", "\n"), '', $this->configModel->get('blob_allowed_mime_types')));
+
+        $config_allowed_mime_types = explode(',', str_replace(array("\n"), ',', $this->configModel->get('blob_allowed_mime_types')));
+        // Remove empty items.
+        $config_allowed_mime_types = array_filter(array_map('trim', $config_allowed_mime_types));
+
+        empty($config_allowed_mime_types)
+            ? $allowed_mime_types = self::VALID_TYPES
+            : $allowed_mime_types = $config_allowed_mime_types;
+
         return $allowed_mime_types;
     }
 }

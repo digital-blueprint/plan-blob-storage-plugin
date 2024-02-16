@@ -19,6 +19,8 @@
     <formgroup class="form-group" id="blob settings">
         <?php echo $this->form->label(t('Allowed MIME types to upload'), 'blob_allowed_mime_types') ?>
         <?php echo $this->form->textarea('blob_allowed_mime_types', $values) ?>
+        <p class="form-help">Format: one MIME type per line</p>
+        <p class="form-help">text/plain,<br>image/jpeg<br>application/pdf</p>
         <p class="form-help"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types" target="_blank"><?php echo t('Help on MIME types') ?></a></p>
     </formgroup>
 
