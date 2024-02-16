@@ -26,7 +26,7 @@ class BlobProjectFileModel extends ProjectFileModel
      *
      * @access public
      * @param  integer  $id     project ID
-     * @param  array    $files  files array of files to upload
+     * @param  array<mixed>    $files  files array of files to upload
      * @return bool
      */
     public function uploadFiles($id, array $files)
@@ -54,7 +54,7 @@ class BlobProjectFileModel extends ProjectFileModel
      * Upload one file
      *
      * @access public
-     * @param  integer $id          project ID
+     * @param  integer      $id     project ID
      * @param  array<mixed> $file   array of file properties to be uploaded
      * @throws Exception
      * @return void
@@ -80,47 +80,6 @@ class BlobProjectFileModel extends ProjectFileModel
             throw new Exception('File not uploaded: ' . var_export($file['error'], true));
         }
     }
-
-    /**
-     * Handle file upload (base64 encoded content)
-     *
-     * @access public
-     * @param  integer $id
-     * @param  string  $originalFilename
-     * @param  string  $data
-     * @param  bool    $isEncoded
-     * @return bool|int
-     */
-    // We don't need this function! It's only available from the TaskController.
-    // public function uploadContent($id, $originalFilename, $data, $isEncoded = true)
-    // {
-    //     if ($isEncoded) {
-    //         $data = base64_decode($data);
-    //     }
-
-    //     if (empty($data)) {
-    //         $this->logger->error(__METHOD__ . ': Content upload with no data');
-    //         throw new Exception('File cannot be uploaded, file is empty.');
-    //     }
-
-    //     $destinationFilename = $this->generatePath($id, $originalFilename);
-
-    //     /* /tasks/1/e4be10d43b5845c993a3059eb0ba74e4009e39da/filename.ext */
-    //     $key = BlobHelper::generateBlobKeyFilename($originalFilename, $destinationFilename);
-
-    //     $this->objectStorage->put($key, $data);
-
-    //     if ($this->isImage($originalFilename)) {
-    //         $this->generateThumbnailFromData($key, $data);
-    //     }
-
-    //     return $this->create(
-    //         $id,
-    //         $originalFilename,
-    //         $destinationFilename,
-    //         strlen($data)
-    //     );
-    // }
 
     /**
      * Remove a file

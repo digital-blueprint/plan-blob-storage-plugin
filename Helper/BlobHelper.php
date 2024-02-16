@@ -62,7 +62,7 @@ class BlobHelper extends Base
      * Create filename and prefix from Kanboard file hash ID.
      *
      * @param string $key Kanboard file hash ID
-     * @return array An array containing the filename and prefix for blob
+     * @return array<mixed> An array containing the filename and prefix for blob
      */
     public static function getFilenameAndPrefixFromKey(string $key): array
     {
@@ -151,10 +151,10 @@ class BlobHelper extends Base
         return in_array($mimeType, $allowed_mime_types);
     }
 
-    /*
+    /**
      * Get all supported mime types from config and return them as an array.
      *
-     * @return array
+     * @return array<string>
      */
     public function getAllowedMimeTypes() :array {
 

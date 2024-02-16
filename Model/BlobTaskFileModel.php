@@ -25,8 +25,8 @@ class BlobTaskFileModel extends TaskFileModel
      * Upload multiple files
      *
      * @access public
-     * @param  integer  $id     project identifier
-     * @param  array    $files  files array of files to upload
+     * @param  integer          $id     project identifier
+     * @param  array<mixed>     $files  files array of files to upload
      * @return bool
      */
     public function uploadFiles($id, array $files)
