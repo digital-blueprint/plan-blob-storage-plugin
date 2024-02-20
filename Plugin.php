@@ -147,9 +147,9 @@ class Plugin extends Base
     private function getConfigBlobApiHost()
     {
         if (defined('BLOB_API_HOST') && BLOB_API_HOST) {
-            return BLOB_API_HOST;
+            return rtrim(BLOB_API_HOST, '/');
         }
 
-        return $this->configModel->get('blob_api_host');
+        return rtrim($this->configModel->get('blob_api_host'), '/');
     }
 }

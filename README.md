@@ -33,7 +33,7 @@ Add those config parameters in your `config.php`:
 
 ```php
 define('BLOB_KEY', '12345678901234567890123456789012345678901234567890123456789012');
-define('BLOB_API_HOST', 'https://blog-api-host.com/');
+define('BLOB_API_HOST', 'https://blog-api-host.com');
 define('BLOB_BUCKET_ID', '0000');
 ```
 
