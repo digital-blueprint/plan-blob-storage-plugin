@@ -16,7 +16,7 @@
         "discard-changes": true
     },
     "require": {
-        "dbp/relay-blob-library": "^0.1.7",
+        "dbp/relay-blob-library": "^0.2",
         "php": ">=7.4"
     },
     "require-dev": {

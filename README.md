@@ -1,7 +1,5 @@
 # Blob Object Storage Plugin
-==========================
-
-This plugin stores uploaded files using Relay-Blob Bundle instead of using the local filesystem.
+This plugin stores uploaded files using Relay Blob Bundle instead of using the local filesystem.
 
 ## Relay-Blob Bundle
 https://github.com/digital-blueprint/relay-blob-bundle
@@ -10,11 +8,15 @@ https://github.com/digital-blueprint/relay-blob-bundle
 https://github.com/digital-blueprint/relay-blob-library
 
 ## Installation
-You have the choice between 3 methods:
 
-Install the plugin from the Kanboard plugin manager in one click
-Download the zip file and decompress everything under the directory plugins/BlobStorage
-Clone this repository into the folder plugins/BlobStorage
+```bash
+# from kanboard root directory
+cd plugins
+git clone git@github.com:digital-blueprint/plan-blob-storage-plugin.git
+mv plan-blob-storage-plugin BlobStorage
+cd BlobStorage
+composer install
+```
 
 Note: Plugin folder is case-sensitive.
 

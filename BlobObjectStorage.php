@@ -16,7 +16,7 @@ use Kanboard\Core\ObjectStorage\ObjectStorageInterface;
 use Kanboard\Plugin\BlobStorage\Helper\BlobHelper;
 
 use Dbp\Relay\BlobLibrary\Api\BlobApi;
-use Dbp\Relay\BlobLibrary\Helpers\Error;
+use Dbp\Relay\BlobLibrary\Api\BlobApiError;
 
 /**
  * Blob Object Storage
@@ -72,16 +72,16 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @throws ObjectStorageException
      */
-    public function get($prefix)
+    public function get($prefix): string
     {
         try {
             $fileData = $this->blobApi->getFileDataByPrefix($prefix);
             if (is_array($fileData) && isset($fileData["hydra:member"][0]["contentUrl"])) {
                 return base64_decode(explode(',', $fileData["hydra:member"][0]["contentUrl"])[1], true);
             }
-        } catch (Error $e) {
+        } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('File could not be downloaded from Blob! ' . $errorMessage, 0, $e);
+            throw new ObjectStorageException('File could not be downloaded from Blob! ' . $errorMessage);
         }
     }
 
@@ -97,16 +97,16 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @throws ObjectStorageException
      */
-    public function output($prefix)
+    public function output($prefix): void
     {
         try {
             $fileData = $this->blobApi->getFileDataByPrefix($prefix);
             if (is_array($fileData) && isset($fileData["hydra:member"][0]["contentUrl"])) {
                 echo base64_decode(explode(',', $fileData["hydra:member"][0]["contentUrl"])[1], true);
             }
-        } catch (Error $e) {
+        } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Unable to output file. ' . $errorMessage, 0, $e);
+            throw new ObjectStorageException('Unable to output file. ' . $errorMessage);
         }
     }
 
@@ -122,7 +122,7 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @throws ObjectStorageException
      */
-    public function moveFile($file_tmp_src, $key)
+    public function moveFile($file_tmp_src, $key): bool
     {
         try {
             if (BlobHelper::checkIfFileIsAllowed($file_tmp_src)) {
@@ -136,9 +136,9 @@ class BlobObjectStorage implements ObjectStorageInterface
             } else {
                 throw new ObjectStorageException('File type is not allowed. Only images, documents and zip files are allowed.');
             }
-        } catch (Error $e) {
+        } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Unable to upload file. ' . $errorMessage, 0, $e);
+            throw new ObjectStorageException('Unable to upload file. ' . $errorMessage);
         }
     }
 
@@ -165,9 +165,9 @@ class BlobObjectStorage implements ObjectStorageInterface
             } else {
                 throw new ObjectStorageException('File type is not allowed. Only images, documents and zip files are allowed.');
             }
-        } catch (Error $e) {
+        } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Unable to upload file. ' . $errorMessage, 0, $e);
+            throw new ObjectStorageException('Unable to upload file. ' . $errorMessage);
         }
     }
 
@@ -197,14 +197,14 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @return boolean
      */
-    public function remove($prefix)
+    public function remove($prefix): bool
     {
         try {
-            $this->blobApi->deleteFilesByPrefix($prefix);
+            $isDeleted = $this->blobApi->deleteFilesByPrefix($prefix);
             return true;
-        } catch (Error $e) {
+        } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Files could not be deleted from Blob!' . $errorMessage, 0, $e);
+            throw new ObjectStorageException('Files could not be deleted from Blob!' . $errorMessage);
         }
     }
 }

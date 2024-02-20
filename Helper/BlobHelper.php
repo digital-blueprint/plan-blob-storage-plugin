@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Kanboard\Plugin\BlobStorage\Helper;
 
 use Kanboard\Core\Base;
-use Throwable;
+use Dbp\Relay\BlobLibrary\Api\BlobApiError;
 
 /**
  * Blob Helper functions
@@ -93,18 +93,17 @@ class BlobHelper extends Base
     /**
      * Format the error message thrown by Blob Library.
      *
-     * @param Throwable $e The original Exception
+     * @param BlobApiError $e Blob Api Exception
      * @return string Formatted error message
      */
-    public static function getBlobErrorMessage(Throwable $e): string
+    public static function getBlobErrorMessage(BlobApiError $e): string
     {
-        $blobErrorMessage = json_decode($e->getMessage());
-        if ($blobErrorMessage) {
-            $errorId = $blobErrorMessage->errorId;
-            $errorMessage = $blobErrorMessage->message;
+        $errorMessage = $e->getMessage();
+        $errorId = $e->getErrorId();
+        if ($errorMessage && $errorId) {
             return $errorId . ': ' . $errorMessage;
         } else {
-            return 'Error message not found';
+            return 'Unknown error.';
         }
     }
 
