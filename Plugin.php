@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Kanboard\Plugin\BlobStorage;
 
+require __DIR__ . '/vendor/autoload.php';
+
 use Kanboard\Core\Plugin\Base;
 use Kanboard\Plugin\BlobStorage\BlobObjectStorage;
 use Kanboard\Plugin\BlobStorage\Model\BlobTaskFileModel;

@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Kanboard\Plugin\BlobStorage;
 
-require __DIR__ . '/vendor/autoload.php';
-
 use Kanboard\Core\ObjectStorage\ObjectStorageException;
 use Kanboard\Core\ObjectStorage\ObjectStorageInterface;
 use Kanboard\Plugin\BlobStorage\Helper\BlobHelper;
