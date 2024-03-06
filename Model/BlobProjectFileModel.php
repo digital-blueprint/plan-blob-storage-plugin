@@ -64,6 +64,9 @@ class BlobProjectFileModel extends ProjectFileModel
         if ($file['error'] == UPLOAD_ERR_OK && $file['size'] > 0) {
             $destination_filename = $this->generatePath($id, $file['name']);
 
+            // Check allowed file size.
+            $this->helper->blobHelper->checkAllowedUploadSize($file['size']);
+
             // $key = '/' . $destination_filename . '/' . $file['name'];
             $key = BlobHelper::generateBlobKeyFilename($file['name'], $destination_filename);
 

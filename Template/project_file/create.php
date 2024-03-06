@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h2><?= t('Attach a document to PROJECT') ?></h2>
+    <h2><?= t('Attach a document to the PROJECT') ?></h2>
 </div>
 
 <?= $this->app->component('file-upload', array(
@@ -8,7 +8,7 @@
     'url'               => $this->url->to('BlobProjectFileController', 'save', array('project_id' => $project['id'], 'plugin' => 'BlobStorage')),
     'labelDropzone'     => t('Drag and drop your files here'),
     'labelOr'           => t('or'),
-    'labelChooseFiles'  => t('BLOB files'),
+    'labelChooseFiles'  => t('choose files'),
     'labelOversize'     => $max_size > 0 ? t('The maximum allowed file size is %sB.', $this->text->bytes($max_size)) : null,
     'labelSuccess'      => t('All files have been uploaded successfully.'),
     'labelCloseSuccess' => t('Close this window'),

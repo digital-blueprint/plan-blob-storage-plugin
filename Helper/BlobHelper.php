@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Kanboard\Plugin\BlobStorage\Helper;
 
+use Exception;
 use Kanboard\Core\Base;
 use Dbp\Relay\BlobLibrary\Api\BlobApiError;
 
@@ -104,6 +105,23 @@ class BlobHelper extends Base
             return $errorId . ': ' . $errorMessage;
         } else {
             return 'Unknown error.';
+        }
+    }
+
+    /**
+     * Check if file size is within configured limits
+     *
+     * @param int $uploadedFileSize Uploaded file size in bytes.
+     * @throws Exception
+     * @return void
+     */
+    public function checkAllowedUploadSize($uploadedFileSize): void
+    {
+        $maxAllowedFileSizeMb = intval($this->configModel->get('blob_allowed_max_file_upload_size'));
+        $maxAllowedFileSize = $maxAllowedFileSizeMb * 1024 * 1024;
+        if ($uploadedFileSize > $maxAllowedFileSize) {
+            $uploadedFileSizeMb = number_format($uploadedFileSize / (1024 * 1024), 2);
+            throw new Exception('File too large to be uploaded (' . $uploadedFileSizeMb . 'MB). Maximum configured file size is: ' . $maxAllowedFileSizeMb . ' MB');
         }
     }
 

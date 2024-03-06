@@ -43,6 +43,7 @@ class BlobTaskFileModel extends TaskFileModel
                 'error' => $files['error'][$key],
             );
 
+
             $this->uploadFile($id, $file);
         }
 
@@ -61,6 +62,9 @@ class BlobTaskFileModel extends TaskFileModel
     public function uploadFile($id, array $file): void
     {
         if ($file['error'] == UPLOAD_ERR_OK && $file['size'] > 0) {
+            // Check allowed file size.
+            $this->helper->blobHelper->checkAllowedUploadSize($file['size']);
+
             $destination_filename = $this->generatePath($id, $file['name']);
 
             // $key = '/' . $destination_filename . '/' . $file['name'];
@@ -100,6 +104,9 @@ class BlobTaskFileModel extends TaskFileModel
             $this->logger->error(__METHOD__ . ': Content upload with no data');
             throw new Exception('File cannot be uploaded, file is empty.');
         }
+
+        // Check allowed file size.
+        $this->helper->blobHelper->checkAllowedUploadSize(strlen($data));
 
         $destinationFilename = $this->generatePath($id, $originalFilename);
 
