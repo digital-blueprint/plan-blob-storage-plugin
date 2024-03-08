@@ -52,9 +52,9 @@ class BlobProjectFileController extends ProjectFileController
 
         try {
             $this->projectFileModel->remove($file['id']);
-            $this->flash->success('File removed successfully.');
+            $this->flash->success(e('File removed successfully.'));
         } catch (\Exception | ObjectStorageException $e) {
-            $this->flash->failure('Unable to remove this file. ' . $e->getMessage());
+            $this->flash->failure(e('Unable to remove this file. ') . $e->getMessage());
         }
 
         $this->response->redirect($this->helper->url->to('ProjectOverviewController', 'show', array('project_id' => $project['id'])));

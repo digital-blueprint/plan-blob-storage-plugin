@@ -12,6 +12,7 @@ namespace Kanboard\Plugin\BlobStorage;
 require __DIR__ . '/vendor/autoload.php';
 
 use Kanboard\Core\Plugin\Base;
+use Kanboard\Core\Translator;
 use Kanboard\Plugin\BlobStorage\BlobObjectStorage;
 use Kanboard\Plugin\BlobStorage\Model\BlobTaskFileModel;
 use Kanboard\Plugin\BlobStorage\Model\BlobProjectFileModel;
@@ -54,6 +55,11 @@ class Plugin extends Base
         $this->template->setTemplateOverride('project_file/remove', 'BlobStorage:project_file/remove');
         $this->template->setTemplateOverride('task_file/create', 'BlobStorage:task_file/create');
         $this->template->setTemplateOverride('task_file/remove', 'BlobStorage:task_file/remove');
+    }
+
+    public function onStartup()
+    {
+        Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
     }
 
     /**

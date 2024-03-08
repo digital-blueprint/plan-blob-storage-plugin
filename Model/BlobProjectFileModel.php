@@ -78,9 +78,9 @@ class BlobProjectFileModel extends ProjectFileModel
             $this->create($id, $file['name'], $destination_filename, $file['size']);
         } else {
             if ($file['size'] === 0) {
-                throw new Exception('File cannot be uploaded, file is empty.');
+                throw new Exception(e('File cannot be uploaded, file is empty.'));
             }
-            throw new Exception('File not uploaded: ' . var_export($file['error'], true));
+            throw new Exception(e('File not uploaded: ') . var_export($file['error'], true));
         }
     }
 

@@ -121,7 +121,7 @@ class BlobHelper extends Base
         $maxAllowedFileSize = $maxAllowedFileSizeMb * 1024 * 1024;
         if ($uploadedFileSize > $maxAllowedFileSize) {
             $uploadedFileSizeMb = number_format($uploadedFileSize / (1024 * 1024), 2);
-            throw new Exception('File too large to be uploaded (' . $uploadedFileSizeMb . 'MB). Maximum configured file size is: ' . $maxAllowedFileSizeMb . ' MB');
+            throw new Exception(e('File too large to be uploaded (%d MB). Maximum configured file size is: %d MB', $uploadedFileSizeMb, $maxAllowedFileSizeMb));
         }
     }
 

@@ -79,7 +79,7 @@ class BlobObjectStorage implements ObjectStorageInterface
             }
         } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('File could not be downloaded from Blob! ' . $errorMessage);
+            throw new ObjectStorageException(e('File could not be downloaded from Blob! %s', $errorMessage));
         }
     }
 
@@ -104,7 +104,7 @@ class BlobObjectStorage implements ObjectStorageInterface
             }
         } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Unable to output file. ' . $errorMessage);
+            throw new ObjectStorageException(e('Unable to output file. %s', $errorMessage));
         }
     }
 
@@ -129,14 +129,14 @@ class BlobObjectStorage implements ObjectStorageInterface
                     $this->blobApi->uploadFile($prefix, $filename, file_get_contents($file_tmp_src));
                     return true;
                 } else {
-                    throw new ObjectStorageException('Unable to upload file. Wrong key supplied.');
+                    throw new ObjectStorageException(e('Unable to upload file. Wrong key supplied.'));
                 }
             } else {
-                throw new ObjectStorageException('File type is not allowed. Only images, documents and zip files are allowed.');
+                throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
         } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Unable to upload file. ' . $errorMessage);
+            throw new ObjectStorageException(e('Unable to upload file. %s', $errorMessage));
         }
     }
 
@@ -158,14 +158,14 @@ class BlobObjectStorage implements ObjectStorageInterface
                 if ($filename && $prefix) {
                     $this->blobApi->uploadFile($prefix, $filename, $blob);
                 } else {
-                    throw new ObjectStorageException('Unable to upload file. Wrong key supplied.');
+                    throw new ObjectStorageException(e('Unable to upload file. Wrong key supplied.'));
                 }
             } else {
-                throw new ObjectStorageException('File type is not allowed. Only images, documents and zip files are allowed.');
+                throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
         } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Unable to upload file. ' . $errorMessage);
+            throw new ObjectStorageException(e('Unable to upload file. %s', $errorMessage));
         }
     }
 
@@ -202,7 +202,7 @@ class BlobObjectStorage implements ObjectStorageInterface
             return true;
         } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException('Files could not be deleted from Blob!' . $errorMessage);
+            throw new ObjectStorageException(e('Files could not be deleted from Blob! %s', $errorMessage));
         }
     }
 }

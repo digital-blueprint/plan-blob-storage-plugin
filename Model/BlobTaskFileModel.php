@@ -78,9 +78,9 @@ class BlobTaskFileModel extends TaskFileModel
             $this->create($id, $file['name'], $destination_filename, $file['size']);
         } else {
             if ($file['size'] === 0) {
-                throw new Exception('File cannot be uploaded, file is empty.');
+                throw new Exception(e('File cannot be uploaded, file is empty.'));
             }
-            throw new Exception('File upload error: ' . var_export($file['error'], true));
+            throw new Exception(e('File upload error: ') . var_export($file['error'], true));
         }
     }
 
@@ -102,7 +102,7 @@ class BlobTaskFileModel extends TaskFileModel
 
         if (empty($data)) {
             $this->logger->error(__METHOD__ . ': Content upload with no data');
-            throw new Exception('File cannot be uploaded, file is empty.');
+            throw new Exception(e('File cannot be uploaded, file is empty.'));
         }
 
         // Check allowed file size.
