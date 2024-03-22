@@ -16,6 +16,8 @@ use Kanboard\Plugin\BlobStorage\Helper\BlobHelper;
 use Dbp\Relay\BlobLibrary\Api\BlobApi;
 use Dbp\Relay\BlobLibrary\Api\BlobApiError;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 /**
  * Blob Object Storage
  *
@@ -45,17 +47,52 @@ class BlobObjectStorage implements ObjectStorageInterface
     private $blobKey;
 
     /**
+     * @var string oauthIDPUrl
+     */
+    private $oauthIDPUrl;
+
+    /**
+     * @var string clientID
+     */
+    private $clientID;
+
+    /**
+     * @var string clientSecret
+     */
+    private $clientSecret;
+
+    /**
      * Constructor
      *
      * @access public
      */
-    public function __construct(string $blobKey, string $blobBucketId, string $blobBaseUrl)
-    {
+    public function __construct(
+        string $blobKey,
+        string $blobBucketId,
+        string $blobBaseUrl,
+        string $oauthIDPUrl,
+        string $clientID,
+        string $clientSecret
+    ) {
         $this->blobBaseUrl = $blobBaseUrl;
         $this->blobBucketId = $blobBucketId;
         $this->blobKey = $blobKey;
 
         $this->blobApi = new BlobApi($this->blobBaseUrl, $this->blobBucketId, $this->blobKey);
+
+        $this->oauthIDPUrl = $oauthIDPUrl;
+        $this->clientID = $clientID;
+        $this->clientSecret = $clientSecret;
+
+        try {
+            $this->blobApi->setOAuth2Token($oauthIDPUrl, $clientID, $clientSecret);
+        } catch (\JsonException $e) {
+            echo $e->getMessage() . "\n";
+            throw new BlobApiError('Something went wrong while decoding the json!', 'blob-library:get-token-json-error', ['message' => $e->getMessage()]);
+        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            echo $e->getMessage() . "\n";
+            throw new BlobApiError('Something went wrong in the request!', 'blob-library:get-token-request-error', ['message' => $e->getMessage()]);
+        }
     }
 
     /**

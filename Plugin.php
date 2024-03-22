@@ -25,7 +25,10 @@ class Plugin extends Base
             return new BlobObjectStorage(
                 $this->getConfigBlobKey(),
                 $this->getConfigBlobBucketId(),
-                $this->getConfigBlobApiHost()
+                $this->getConfigBlobApiHost(),
+                $this->getConfigOauthIDPUrl(),
+                $this->getConfigClientID(),
+                $this->getConfigClientSecret()
             );
         };
 
@@ -80,7 +83,8 @@ class Plugin extends Base
 
     public function isConfigured(): bool
     {
-        if (!$this->getConfigBlobKey() || !$this->getConfigBlobBucketId() || !$this->getConfigBlobApiHost()) {
+        if (!$this->getConfigBlobKey() || !$this->getConfigBlobBucketId() || !$this->getConfigBlobApiHost() ||
+            !$this->getConfigOauthIDPUrl() || !$this->getConfigClientID() || !$this->getConfigClientSecret()) {
             $this->logger->info('Plugin Blob Storage not configured!');
             return false;
         }
@@ -159,5 +163,53 @@ class Plugin extends Base
         }
 
         return rtrim($this->configModel->get('blob_api_host'), '/');
+    }
+
+    /**
+     * Get config blob api hostname
+     *
+     * @access private
+     *
+     * @return string
+     */
+    private function getConfigOauthIDPUrl()
+    {
+        if (defined('BLOB_OAUTH_IDP_URL') && BLOB_OAUTH_IDP_URL) {
+            return rtrim(BLOB_OAUTH_IDP_URL, '/');
+        }
+
+        return rtrim($this->configModel->get('blob_oauth_idp_url'), '/');
+    }
+
+    /**
+     * Get config blob api hostname
+     *
+     * @access private
+     *
+     * @return string
+     */
+    private function getConfigClientID()
+    {
+        if (defined('BLOB_CLIENT_ID') && BLOB_CLIENT_ID) {
+            return BLOB_CLIENT_ID;
+        }
+
+        return $this->configModel->get('blob_client_id');
+    }
+
+    /**
+     * Get config blob api hostname
+     *
+     * @access private
+     *
+     * @return string
+     */
+    private function getConfigClientSecret()
+    {
+        if (defined('BLOB_CLIENT_SECRET') && BLOB_CLIENT_SECRET) {
+            return BLOB_CLIENT_SECRET;
+        }
+
+        return $this->configModel->get('blob_client_secret');
     }
 }

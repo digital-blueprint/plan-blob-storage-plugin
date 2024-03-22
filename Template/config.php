@@ -13,6 +13,15 @@
         <?php echo $this->form->label(e('Blob API host'), 'blob_api_host') ?>
         <?php echo $this->form->text('blob_api_host', $values) ?>
 
+        <?php echo $this->form->label(e('Blob oauth IDP url'), 'blob_oauth_idp_url') ?>
+        <?php echo $this->form->text('blob_oauth_idp_url', $values) ?>
+
+        <?php echo $this->form->label(e('Blob client ID'), 'blob_client_id') ?>
+        <?php echo $this->form->text('blob_client_id', $values) ?>
+
+        <?php echo $this->form->label(e('Blob client secret'), 'blob_client_secret') ?>
+        <?php echo $this->form->text('blob_client_secret', $values) ?>
+
         <p class="form-help"><a href="https://github.com/digital-blueprint/relay-blob-library#usage" target="_blank"><?php echo t('Help on Blob Library configuration') ?></a></p>
     </formgroup>
 

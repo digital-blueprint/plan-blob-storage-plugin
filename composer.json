@@ -4,15 +4,15 @@
     "license": "AGPL-3.0-or-later",
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.1"
         },
         "preferred-install": "dist",
         "optimize-autoloader": true,
         "discard-changes": true
     },
     "require": {
-        "dbp/relay-blob-library": "^0.2",
-        "php": ">=7.4"
+        "dbp/relay-blob-library": "^0.2.4",
+        "php": ">=8.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
