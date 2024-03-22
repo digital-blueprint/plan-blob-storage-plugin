@@ -12,10 +12,8 @@ namespace Kanboard\Plugin\BlobStorage;
 use Kanboard\Core\ObjectStorage\ObjectStorageException;
 use Kanboard\Core\ObjectStorage\ObjectStorageInterface;
 use Kanboard\Plugin\BlobStorage\Helper\BlobHelper;
-
 use Dbp\Relay\BlobLibrary\Api\BlobApi;
 use Dbp\Relay\BlobLibrary\Api\BlobApiError;
-
 use GuzzleHttp\Exception\GuzzleException;
 
 /**

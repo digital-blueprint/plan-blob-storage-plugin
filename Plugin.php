@@ -62,7 +62,7 @@ class Plugin extends Base
 
     public function onStartup()
     {
-        Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
+        Translator::load($this->languageModel->getCurrentLanguage(), __DIR__ . '/Locale');
     }
 
     /**
@@ -83,8 +83,10 @@ class Plugin extends Base
 
     public function isConfigured(): bool
     {
-        if (!$this->getConfigBlobKey() || !$this->getConfigBlobBucketId() || !$this->getConfigBlobApiHost() ||
-            !$this->getConfigOauthIDPUrl() || !$this->getConfigClientID() || !$this->getConfigClientSecret()) {
+        if (
+            !$this->getConfigBlobKey() || !$this->getConfigBlobBucketId() || !$this->getConfigBlobApiHost() ||
+            !$this->getConfigOauthIDPUrl() || !$this->getConfigClientID() || !$this->getConfigClientSecret()
+        ) {
             $this->logger->info('Plugin Blob Storage not configured!');
             return false;
         }
