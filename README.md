@@ -21,11 +21,12 @@ composer install
 Note: Plugin folder is case-sensitive.
 
 ## Configuration
-You can configure this plugin through the user interface or with the config file
+The plugin can be configured in two ways: through the user interface or using the config file.
 
 ### With the user interface
 Go to Settings > Integrations >  Blob File Storage
-![blob-storage-plugin-config](https://github.com/digital-blueprint/plan-blob-storage-plugin/assets/5683951/95558045-1b67-4171-a8be-edd4fe70ac09)
+
+![blob-plugin-config-form](https://github.com/digital-blueprint/plan-blob-storage-plugin/assets/5683951/56cde866-bf10-4208-b63d-d2c0ae21dea5)
 
 ### With the config file
 
@@ -34,12 +35,15 @@ Add those config parameters in your `config.php`:
 ```php
 define('BLOB_KEY', '12345678901234567890123456789012345678901234567890123456789012');
 define('BLOB_API_HOST', 'https://blog-api-host.com');
-define('BLOB_BUCKET_ID', '0000');
+define('BLOB_BUCKET_ID', 'your-bucket-id');
+define('BLOB_OAUTH_IDP_URL', 'https://your.oauth.server');
+define('BLOB_CLIENT_ID', 'your-client-id');
+define('BLOB_CLIENT_SECRET', 'your-client-secret');
 ```
 
 ### Requirements
 ------------
-- PHP >= 5.6
+- PHP >= 8.1
 - Kanboard >= 1.2.1
 
 ```mermaid
