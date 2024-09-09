@@ -68,16 +68,16 @@
         },
         {
             "name": "dbp/relay-blob-library",
-            "version": "v0.2.10",
+            "version": "v0.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-blob-library.git",
-                "reference": "6d2c89f4a88a45c3fc1c72d60175210347126de7"
+                "reference": "178fac44633f83d14dd56b25083a3aba1f20596f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-blob-library/zipball/6d2c89f4a88a45c3fc1c72d60175210347126de7",
-                "reference": "6d2c89f4a88a45c3fc1c72d60175210347126de7",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-blob-library/zipball/178fac44633f83d14dd56b25083a3aba1f20596f",
+                "reference": "178fac44633f83d14dd56b25083a3aba1f20596f",
                 "shasum": ""
             },
             "require": {
@@ -116,9 +116,9 @@
             "description": "PHP helper library for interaction with the relay-blob-bundle.",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-blob-library/issues",
-                "source": "https://github.com/digital-blueprint/relay-blob-library/tree/v0.2.10"
+                "source": "https://github.com/digital-blueprint/relay-blob-library/tree/v0.2.11"
             },
-            "time": "2024-08-31T05:09:28+00:00"
+            "time": "2024-09-03T13:31:54+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -514,16 +514,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "f65c82939ab17aeff538f9bf6d582f65cc7f255e"
+                "reference": "a673d5f310477027cead2e2f2b6db5d8368157cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/f65c82939ab17aeff538f9bf6d582f65cc7f255e",
-                "reference": "f65c82939ab17aeff538f9bf6d582f65cc7f255e",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/a673d5f310477027cead2e2f2b6db5d8368157cb",
+                "reference": "a673d5f310477027cead2e2f2b6db5d8368157cb",
                 "shasum": ""
             },
             "require": {
@@ -538,6 +538,11 @@
                 "ext-sodium": "Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "files": [
                     "autoload.php"
@@ -594,9 +599,9 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v2.0.1"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v2.1.0"
             },
-            "time": "2024-04-24T12:06:31+00:00"
+            "time": "2024-09-04T12:51:01+00:00"
         },
         {
             "name": "psr/cache",
