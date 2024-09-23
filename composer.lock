@@ -2039,16 +2039,16 @@
     "packages-dev": [
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.1",
+            "version": "1.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d8ed7fffa66de1db0d2972267d8ed1d8fa0fe5a2"
+                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d8ed7fffa66de1db0d2972267d8ed1d8fa0fe5a2",
-                "reference": "d8ed7fffa66de1db0d2972267d8ed1d8fa0fe5a2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
+                "reference": "ffa517cb918591b93acc9b95c0bebdcd0e4538bd",
                 "shasum": ""
             },
             "require": {
@@ -2093,7 +2093,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-03T19:55:22+00:00"
+            "time": "2024-09-19T07:58:01+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
