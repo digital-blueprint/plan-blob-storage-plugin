@@ -111,6 +111,8 @@ class BlobObjectStorage implements ObjectStorageInterface
             $fileData = $this->blobApi->getFileDataByPrefix($prefix);
             if (is_array($fileData) && isset($fileData["hydra:member"][0]["contentUrl"])) {
                 return base64_decode(explode(',', $fileData["hydra:member"][0]["contentUrl"])[1], true);
+            } else {
+                throw new ObjectStorageException(e('File could not be downloaded from Blob!'));
             }
         } catch (BlobApiError $e) {
             $errorMessage = BlobHelper::getBlobErrorMessage($e);

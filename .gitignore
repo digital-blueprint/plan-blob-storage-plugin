@@ -1,4 +1,2 @@
-.github
 /vendor
 *.sh
-*.neon

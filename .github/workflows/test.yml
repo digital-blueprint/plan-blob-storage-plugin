@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+env:
+  COMPOSER_CACHE_DIR: /tmp/_composer_cache
+
+jobs:
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up php8.1
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.1
+        extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
+        coverage: xdebug
+        ini-file: development
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Cache composer cache directory
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.COMPOSER_CACHE_DIR }}
+        key: composer-cache
+    - name: Unit tests
+      run: |
+        composer install
+        composer lint

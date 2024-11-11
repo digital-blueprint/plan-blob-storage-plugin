@@ -57,7 +57,7 @@ class BlobTaskFileController extends TaskFileController
                 if ($this->request->isAjax()) {
                     $this->response->json(array('message' => $e->getMessage()), 500);
                 } else {
-                    $this->flash->failure($result);
+                    $this->flash->failure($e->getMessage());
                     return $this->response->redirect($this->helper->url->to('TaskViewController', 'show', array('task_id' => $task['id'])), true);
                 }
             }
