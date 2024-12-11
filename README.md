@@ -15,7 +15,7 @@ cd plugins
 git clone git@github.com:digital-blueprint/plan-blob-storage-plugin.git
 mv plan-blob-storage-plugin BlobStorage
 cd BlobStorage
-composer install
+composer install --no-dev
 ```
 
 Note: Plugin folder is case-sensitive.
