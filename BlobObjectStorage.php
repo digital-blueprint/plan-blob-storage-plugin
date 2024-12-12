@@ -161,13 +161,8 @@ class BlobObjectStorage implements ObjectStorageInterface
     {
         try {
             if (BlobHelper::checkIfFileIsAllowed($file_tmp_src)) {
-                list($filename, $prefix) = BlobHelper::getFilenameAndPrefixFromKey($key);
-                if ($filename && $prefix) {
-                    $this->blobApi->uploadFile($prefix, $filename, file_get_contents($file_tmp_src));
-                    return true;
-                } else {
-                    throw new ObjectStorageException(e('Unable to upload file. Wrong key supplied.'));
-                }
+                $this->blobApi->uploadFile($key, ' ', file_get_contents($file_tmp_src));
+                return true;
             } else {
                 throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
@@ -191,12 +186,7 @@ class BlobObjectStorage implements ObjectStorageInterface
     {
         try {
             if (BlobHelper::checkIfFileIsAllowed($blob)) {
-                list($filename, $prefix) = BlobHelper::getFilenameAndPrefixFromKey($key);
-                if ($filename && $prefix) {
-                    $this->blobApi->uploadFile($prefix, $filename, $blob);
-                } else {
-                    throw new ObjectStorageException(e('Unable to upload file. Wrong key supplied.'));
-                }
+                $this->blobApi->uploadFile($key, ' ', $blob);
             } else {
                 throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
