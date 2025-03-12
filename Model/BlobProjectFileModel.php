@@ -68,13 +68,13 @@ class BlobProjectFileModel extends ProjectFileModel
             $this->helper->blobHelper->checkAllowedUploadSize($file['size']);
 
             // $key = '/' . $destination_filename . '/' . $file['name'];
-            $key = BlobHelper::generateBlobKeyFilename($file['name'], $destination_filename);
+            // $key = BlobHelper::generateBlobKeyFilename($file['name'], $destination_filename);
 
             if ($this->isImage($file['name'])) {
-                $this->generateThumbnailFromFile($file['tmp_name'], $key);
+                $this->generateThumbnailFromFile($file['tmp_name'], $destination_filename);
             }
 
-            $this->objectStorage->moveUploadedFile($file['tmp_name'], $key);
+            $this->objectStorage->moveUploadedFile($file['tmp_name'], $destination_filename);
             $this->create($id, $file['name'], $destination_filename, $file['size']);
         } else {
             if ($file['size'] === 0) {
