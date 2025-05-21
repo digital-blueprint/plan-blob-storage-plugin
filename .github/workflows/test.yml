@@ -13,10 +13,10 @@ jobs:
     name: Linting
     runs-on: ubuntu-latest
     steps:
-    - name: Set up php8.1
+    - name: Set up php8.2
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.1
+        php-version: 8.2
         extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
         coverage: xdebug
         ini-file: development
