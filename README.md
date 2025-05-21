@@ -52,16 +52,16 @@ title: Blob Storage Plugin
 ---
 graph TB
     subgraph BlobApi
-        uploadFileByPrefix["uploadFileByPrefix()"]
-        getFileDataByPrefix["getFileDataByPrefix()"]
-        deleteFileByPrefix["deleteFileByPrefix()"]
+        addFile["addFile()"]
+        getFiles["getFiles()"]
+        removeFiles["removeFiles()"]
     end
     subgraph BlobStorage
-        moveFile["moveFile()"] --> uploadFileByPrefix
-        put["put()"] --> uploadFileByPrefix
-        output["output()"] --> getFileDataByPrefix
-        get["get()"] --> getFileDataByPrefix
-        remove["remove()"] --> deleteFileByPrefix
+        moveFile["moveFile()"] --> addFile
+        put["put()"] --> addFile
+        output["output()"] --> getFiles
+        get["get()"] --> getFiles
+        remove["remove()"] --> removeFiles
     end
     subgraph BlobTaskFileModel
         uploadFiles["uploadFiles()"] --> uploadFile

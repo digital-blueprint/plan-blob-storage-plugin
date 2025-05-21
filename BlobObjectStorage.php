@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Kanboard\Plugin\BlobStorage;
 
+use Dbp\Relay\BlobLibrary\Api\BlobFile;
 use Kanboard\Core\ObjectStorage\ObjectStorageException;
 use Kanboard\Core\ObjectStorage\ObjectStorageInterface;
 use Kanboard\Plugin\BlobStorage\Helper\BlobHelper;
 use Dbp\Relay\BlobLibrary\Api\BlobApi;
 use Dbp\Relay\BlobLibrary\Api\BlobApiError;
-use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Blob Object Storage
@@ -24,73 +24,22 @@ use GuzzleHttp\Exception\GuzzleException;
  */
 class BlobObjectStorage implements ObjectStorageInterface
 {
-    /**
-     * @var BlobApi
-     */
-    private $blobApi;
+    private BlobApi $blobApi;
 
     /**
-     * @var string blobBaseUrl
-     */
-    private $blobBaseUrl;
-
-    /**
-     * @var string blobBucketId
-     */
-    private $blobBucketId;
-
-    /**
-     * @var string blobKey
-     */
-    private $blobKey;
-
-    /**
-     * @var string oauthIDPUrl
-     */
-    private $oauthIDPUrl;
-
-    /**
-     * @var string clientID
-     */
-    private $clientID;
-
-    /**
-     * @var string clientSecret
-     */
-    private $clientSecret;
-
-    /**
-     * Constructor
-     *
-     * @access public
+     * @throws BlobApiError
      */
     public function __construct(
-        string $blobKey,
-        string $blobBucketId,
+        string $bucketKey,
+        string $bucketIdentifier,
         string $blobBaseUrl,
-        string $oauthIDPUrl,
-        string $clientID,
-        string $clientSecret
+        string $oidcProviderUrl,
+        string $oidcClientId,
+        string $oidcClientSecret
     ) {
-        $this->blobBaseUrl = $blobBaseUrl;
-        $this->blobBucketId = $blobBucketId;
-        $this->blobKey = $blobKey;
-
-        $this->blobApi = new BlobApi($this->blobBaseUrl, $this->blobBucketId, $this->blobKey);
-
-        $this->oauthIDPUrl = $oauthIDPUrl;
-        $this->clientID = $clientID;
-        $this->clientSecret = $clientSecret;
-
-        try {
-            $this->blobApi->setOAuth2Token($oauthIDPUrl, $clientID, $clientSecret);
-        } catch (\JsonException $e) {
-            echo $e->getMessage() . "\n";
-            throw new BlobApiError('Something went wrong while decoding the json!', 'blob-library:get-token-json-error', ['message' => $e->getMessage()]);
-        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
-            echo $e->getMessage() . "\n";
-            throw new BlobApiError('Something went wrong in the request!', 'blob-library:get-token-request-error', ['message' => $e->getMessage()]);
-        }
+        $this->blobApi = BlobApi::createHttpModeApi(
+            $bucketIdentifier, $bucketKey, $blobBaseUrl,
+            true, $oidcProviderUrl, $oidcClientId, $oidcClientSecret);
     }
 
     /**
@@ -99,24 +48,26 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @access public
      *
-     * @param string $prefix blob key
+     * @param string $key file key
      *
-     * @return string blob contents
+     * @return string the file contents
      *
      * @throws ObjectStorageException
      */
-    public function get($prefix): string
+    public function get($key): string
     {
         try {
-            $fileData = $this->blobApi->getFileDataByPrefix($prefix);
-            if (is_array($fileData) && isset($fileData["hydra:member"][0]["contentUrl"])) {
-                return base64_decode(explode(',', $fileData["hydra:member"][0]["contentUrl"])[1], true);
+            $blobFiles = $this->blobApi->getFiles(options: [
+                BlobApi::PREFIX_OPTION => $key,
+                BlobApi::INCLUDE_FILE_CONTENTS_OPTION => true]);
+            if (false === empty($blobFiles)) {
+                return base64_decode(explode(',', $blobFiles[0]->getContentUrl())[1], true);
             } else {
                 throw new ObjectStorageException(e('File could not be downloaded from Blob!'));
             }
-        } catch (BlobApiError $e) {
-            $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException(e('File could not be downloaded from Blob! %s', $errorMessage));
+        } catch (BlobApiError $blobApiError) {
+            throw new ObjectStorageException(sprintf('Unable to get file \'%s\': %s',
+                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
         }
     }
 
@@ -126,49 +77,52 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @access public
      *
-     * @param string $prefix blob key
-     *
-     * @return void
+     * @param string $key file key
      *
      * @throws ObjectStorageException
      */
-    public function output($prefix): void
+    public function output($key): void
     {
         try {
-            $fileData = $this->blobApi->getFileDataByPrefix($prefix);
-            if (is_array($fileData) && isset($fileData["hydra:member"][0]["contentUrl"])) {
-                echo base64_decode(explode(',', $fileData["hydra:member"][0]["contentUrl"])[1], true);
+            $blobFiles = $this->blobApi->getFiles(options: [
+                BlobApi::PREFIX_OPTION => $key,
+                BlobApi::INCLUDE_FILE_CONTENTS_OPTION => true]);
+            if (false === empty($blobFiles)) {
+                echo base64_decode(explode(',', $blobFiles[0]->getContentUrl())[1], true);
             }
-        } catch (BlobApiError $e) {
-            $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException(e('Unable to output file. %s', $errorMessage));
+        } catch (BlobApiError $blobApiError) {
+            throw new ObjectStorageException(sprintf('Unable to get file \'%s\': %s',
+                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
         }
     }
 
     /**
-     * Upload file to object storage
+     * Upload the file to object storage
      *
      * @access public
      *
-     * @param string $file_tmp_src  array contain local file data
-     * @param string $key           blob key and orig filename
-     *
-     * @return boolean
+     * @param string $filename  array contain local file data
+     * @param string $key           file key and orig filename
      *
      * @throws ObjectStorageException
      */
-    public function moveFile($file_tmp_src, $key): bool
+    public function moveFile($filename, $key): bool
     {
         try {
-            if (BlobHelper::checkIfFileIsAllowed($file_tmp_src)) {
-                $this->blobApi->uploadFile($key, ' ', file_get_contents($file_tmp_src));
+            if (BlobHelper::checkIfFileIsAllowed($filename)) {
+                $blobFile = new BlobFile();
+                $blobFile->setFile(fopen($filename, 'r'));
+                $blobFile->setFilename(basename($filename));
+                $blobFile->setPrefix($key);
+                $this->blobApi->addFile($blobFile);
+
                 return true;
             } else {
                 throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
-        } catch (BlobApiError $e) {
-            $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException(e('Unable to upload file. %s', $errorMessage));
+        } catch (BlobApiError $blobApiError) {
+            throw new ObjectStorageException(sprintf('Unable to upload file \'%s\': %s',
+                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
         }
     }
 
@@ -186,29 +140,33 @@ class BlobObjectStorage implements ObjectStorageInterface
     {
         try {
             if (BlobHelper::checkIfFileIsAllowed($blob)) {
-                $this->blobApi->uploadFile($key, ' ', $blob);
+                $blobFile = new BlobFile();
+                $blobFile->setFile($blob);
+                $blobFile->setFilename('');
+                $blobFile->setPrefix($key);
+                $this->blobApi->addFile($blobFile);
             } else {
                 throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
-        } catch (BlobApiError $e) {
-            $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException(e('Unable to upload file. %s', $errorMessage));
+        } catch (BlobApiError $blobApiError) {
+            throw new ObjectStorageException(sprintf('Unable to upload file \'%s\': %s',
+                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
         }
     }
 
     /**
-     * Move uploaded file to object storage
+     * Move the uploaded file to object storage
      *
      * @access public
      *
-     * @param string  $file_tmp_src array contain local file data
-     * @param string $key  blob key
+     * @param string $filename array contain local file data
+     * @param string $key      blob key
      *
-     * @return boolean
+     * @throws ObjectStorageException
      */
-    public function moveUploadedFile($file_tmp_src, $key)
+    public function moveUploadedFile($filename, $key): bool
     {
-        return $this->moveFile($file_tmp_src, $key);
+        return $this->moveFile($filename, $key);
     }
 
     /**
@@ -216,20 +174,22 @@ class BlobObjectStorage implements ObjectStorageInterface
      *
      * @access public
      *
-     * @param  string $prefix blob key
+     * @param  string $key blob key
      *
      * @throws ObjectStorageException
      *
-     * @return boolean
      */
-    public function remove($prefix): bool
+    public function remove($key): bool
     {
         try {
-            $isDeleted = $this->blobApi->deleteFilesByPrefix($prefix);
+            $this->blobApi->removeFiles([
+                BlobApi::PREFIX_OPTION => $key,
+            ]);
+
             return true;
         } catch (BlobApiError $e) {
-            $errorMessage = BlobHelper::getBlobErrorMessage($e);
-            throw new ObjectStorageException(e('Files could not be deleted from Blob! %s', $errorMessage));
+            throw new ObjectStorageException(sprintf('File \'%s\' could not be deleted from Blob: %s',
+                $key, BlobHelper::getBlobErrorMessage($e)));
         }
     }
 }

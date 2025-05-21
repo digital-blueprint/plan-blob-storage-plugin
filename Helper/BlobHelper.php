@@ -94,18 +94,13 @@ class BlobHelper extends Base
     /**
      * Format the error message thrown by Blob Library.
      *
-     * @param BlobApiError $e Blob Api Exception
+     * @param BlobApiError $blobApiError Blob Api Exception
      * @return string Formatted error message
      */
-    public static function getBlobErrorMessage(BlobApiError $e): string
+    public static function getBlobErrorMessage(BlobApiError $blobApiError): string
     {
-        $errorMessage = $e->getMessage();
-        $errorId = $e->getErrorId();
-        if ($errorMessage && $errorId) {
-            return $errorId . ': ' . $errorMessage;
-        } else {
-            return 'Unknown error.';
-        }
+        return $blobApiError->getErrorId().': '.$blobApiError->getMessage().
+            ($blobApiError->getBlobErrorId() ? '('.$blobApiError->getBlobErrorId().')' : '');
     }
 
     /**
