@@ -142,15 +142,15 @@ class BlobObjectStorage implements ObjectStorageInterface
             if (BlobHelper::checkIfFileIsAllowed($blob)) {
                 $blobFile = new BlobFile();
                 $blobFile->setFile($blob);
-                $blobFile->setFilename('');
+                $blobFile->setFilename(basename($key));
                 $blobFile->setPrefix($key);
                 $this->blobApi->addFile($blobFile);
             } else {
                 throw new ObjectStorageException(e('File type is not allowed. Only images, documents and zip files are allowed.'));
             }
         } catch (BlobApiError $blobApiError) {
-            throw new ObjectStorageException(sprintf('Unable to upload file \'%s\': %s',
-                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
+            throw new ObjectStorageException(sprintf('Failed to upload file: %s',
+                BlobHelper::getBlobErrorMessage($blobApiError)));
         }
     }
 

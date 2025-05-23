@@ -99,8 +99,12 @@ class BlobHelper extends Base
      */
     public static function getBlobErrorMessage(BlobApiError $blobApiError): string
     {
-        return $blobApiError->getErrorId().': '.$blobApiError->getMessage().
-            ($blobApiError->getBlobErrorId() ? '('.$blobApiError->getBlobErrorId().')' : '');
+        return match ($blobApiError->getErrorId()) {
+            BlobApiError::CONNECT_ERROR => 'Failed to connect to Blob Storage.',
+            BlobApiError::CLIENT_ERROR => sprintf('Client error %d (%s). ', $blobApiError->getStatusCode(), $blobApiError->getBlobErrorId()),
+            BlobApiError::SERVER_ERROR => sprintf('Server error %d (%s). ', $blobApiError->getStatusCode(), $blobApiError->getBlobErrorId()),
+            default => sprintf('Internal error: %s (%s). ', $blobApiError->getMessage(), $blobApiError->getErrorId()),
+        };
     }
 
     /**
