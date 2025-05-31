@@ -68,16 +68,16 @@
         },
         {
             "name": "dbp/relay-blob-library",
-            "version": "v0.3.5",
+            "version": "v0.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-blob-library.git",
-                "reference": "e22cd274fbe9df687ae3d7ff4b2799b60f1d146c"
+                "reference": "de3b1ba3044e1b1e3ddbc93bdc5abd8898cbaff8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-blob-library/zipball/e22cd274fbe9df687ae3d7ff4b2799b60f1d146c",
-                "reference": "e22cd274fbe9df687ae3d7ff4b2799b60f1d146c",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-blob-library/zipball/de3b1ba3044e1b1e3ddbc93bdc5abd8898cbaff8",
+                "reference": "de3b1ba3044e1b1e3ddbc93bdc5abd8898cbaff8",
                 "shasum": ""
             },
             "require": {
@@ -111,9 +111,9 @@
             "description": "PHP helper library for interaction with the dbp/relay-blob-bundle.",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-blob-library/issues",
-                "source": "https://github.com/digital-blueprint/relay-blob-library/tree/v0.3.5"
+                "source": "https://github.com/digital-blueprint/relay-blob-library/tree/v0.3.7"
             },
-            "time": "2025-05-23T17:27:11+00:00"
+            "time": "2025-05-27T09:10:23+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
