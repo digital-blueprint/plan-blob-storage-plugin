@@ -56,19 +56,7 @@ class BlobObjectStorage implements ObjectStorageInterface
      */
     public function get($key): string
     {
-        try {
-            $blobFiles = $this->blobApi->getFiles(options: [
-                BlobApi::PREFIX_OPTION => $key,
-                BlobApi::INCLUDE_FILE_CONTENTS_OPTION => true]);
-            if (false === empty($blobFiles)) {
-                return base64_decode(explode(',', $blobFiles[0]->getContentUrl())[1], true);
-            } else {
-                throw new ObjectStorageException(e('File could not be downloaded from Blob!'));
-            }
-        } catch (BlobApiError $blobApiError) {
-            throw new ObjectStorageException(sprintf('Unable to get file \'%s\': %s',
-                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
-        }
+        return $this->getFileContents($key);
     }
 
     /**
@@ -83,17 +71,7 @@ class BlobObjectStorage implements ObjectStorageInterface
      */
     public function output($key): void
     {
-        try {
-            $blobFiles = $this->blobApi->getFiles(options: [
-                BlobApi::PREFIX_OPTION => $key,
-                BlobApi::INCLUDE_FILE_CONTENTS_OPTION => true]);
-            if (false === empty($blobFiles)) {
-                echo base64_decode(explode(',', $blobFiles[0]->getContentUrl())[1], true);
-            }
-        } catch (BlobApiError $blobApiError) {
-            throw new ObjectStorageException(sprintf('Unable to get file \'%s\': %s',
-                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
-        }
+        echo $this->getFileContents($key);
     }
 
     /**
@@ -190,6 +168,29 @@ class BlobObjectStorage implements ObjectStorageInterface
         } catch (BlobApiError $e) {
             throw new ObjectStorageException(sprintf('File \'%s\' could not be deleted from Blob: %s',
                 $key, BlobHelper::getBlobErrorMessage($e)));
+        }
+    }
+
+    /**
+     * @throws ObjectStorageException
+     */
+    private function getFileContents(string $key): string|false
+    {
+        try {
+            $blobFile = null;
+            foreach ($this->blobApi->getFiles(options: [
+                BlobApi::PREFIX_OPTION => $key,
+                BlobApi::INCLUDE_FILE_CONTENTS_OPTION => true]) as $blobFile) {
+                break;
+            }
+            if ($blobFile !== null) {
+                return base64_decode(explode(',', $blobFile->getContentUrl())[1], true);
+            } else {
+                throw new ObjectStorageException(sprintf('Failed to download file \'%s\': file not found', $key));
+            }
+        } catch (BlobApiError $blobApiError) {
+            throw new ObjectStorageException(sprintf('Failed to download file \'%s\': %s',
+                $key, BlobHelper::getBlobErrorMessage($blobApiError)));
         }
     }
 }
