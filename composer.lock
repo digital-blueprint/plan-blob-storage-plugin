@@ -68,16 +68,16 @@
         },
         {
             "name": "dbp/relay-blob-library",
-            "version": "v0.3.11",
+            "version": "v0.3.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digital-blueprint/relay-blob-library.git",
-                "reference": "855d2243797ea410bb801fc7bbd205adfce00def"
+                "reference": "5c14ecbfc93e3603a590b949e0c98fa78bb20125"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digital-blueprint/relay-blob-library/zipball/855d2243797ea410bb801fc7bbd205adfce00def",
-                "reference": "855d2243797ea410bb801fc7bbd205adfce00def",
+                "url": "https://api.github.com/repos/digital-blueprint/relay-blob-library/zipball/5c14ecbfc93e3603a590b949e0c98fa78bb20125",
+                "reference": "5c14ecbfc93e3603a590b949e0c98fa78bb20125",
                 "shasum": ""
             },
             "require": {
@@ -112,9 +112,9 @@
             "description": "PHP helper library for interaction with the dbp/relay-blob-bundle.",
             "support": {
                 "issues": "https://github.com/digital-blueprint/relay-blob-library/issues",
-                "source": "https://github.com/digital-blueprint/relay-blob-library/tree/v0.3.11"
+                "source": "https://github.com/digital-blueprint/relay-blob-library/tree/v0.3.12"
             },
-            "time": "2026-08-04T10:06:13+00:00"
+            "time": "2026-10-14T11:51:22+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1102,16 +1102,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v7.4.16",
+            "version": "v7.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "b676451bb638e99a7d34d8a2be90406822e301eb"
+                "reference": "58c89144c7a36dd89c3d01917e9fa3a72d8aaf31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/b676451bb638e99a7d34d8a2be90406822e301eb",
-                "reference": "b676451bb638e99a7d34d8a2be90406822e301eb",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/58c89144c7a36dd89c3d01917e9fa3a72d8aaf31",
+                "reference": "58c89144c7a36dd89c3d01917e9fa3a72d8aaf31",
                 "shasum": ""
             },
             "require": {
@@ -1160,7 +1160,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v7.4.16"
+                "source": "https://github.com/symfony/http-foundation/tree/v7.4.21"
             },
             "funding": [
                 {
@@ -1180,7 +1180,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-07T11:50:27+00:00"
+            "time": "2026-10-08T16:56:12+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
