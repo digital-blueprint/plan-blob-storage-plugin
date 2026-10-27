@@ -92,9 +92,10 @@ class BlobTaskFileModel extends TaskFileModel
      * @param  string  $originalFilename    Generated filename for screenshot
      * @param  string  $data                Base64 encoded image
      * @param  bool    $isEncoded           Whether the data is base64 encoded or not
+     * @param  integer $creator_id          Explicit uploader ID
      * @return bool|int
      */
-    public function uploadContent($id, $originalFilename, $data, $isEncoded = true)
+    public function uploadContent($id, $originalFilename, $data, $isEncoded = true, $creator_id = 0)
     {
         if ($isEncoded) {
             $data = base64_decode($data);
@@ -123,7 +124,8 @@ class BlobTaskFileModel extends TaskFileModel
             $id,
             $originalFilename,
             $destinationFilename,
-            strlen($data)
+            strlen($data),
+            $creator_id
         );
     }
 
