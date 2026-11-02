@@ -46,6 +46,23 @@ define('BLOB_CLIENT_SECRET', 'your-client-secret');
 - PHP >= 8.1
 - Kanboard >= 1.2.1
 
+## Avatar cleanup
+
+Run from the Kanboard root directory:
+
+```bash
+# Preview only (default)
+php cli blob:cleanup-avatars
+
+# Delete orphaned avatar blobs and clear paths pointing to missing blobs
+php cli blob:cleanup-avatars --apply
+```
+
+The command removes unused avatar files and restores the default avatar when a
+user's avatar file is missing. Active avatars and other attachments are unaffected.
+
+Run during a quiet period without avatar uploads.
+
 ```mermaid
 ---
 title: Blob Storage Plugin

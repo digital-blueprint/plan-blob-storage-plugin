@@ -16,11 +16,16 @@ use Kanboard\Core\Translator;
 use Kanboard\Plugin\BlobStorage\BlobObjectStorage;
 use Kanboard\Plugin\BlobStorage\Model\BlobTaskFileModel;
 use Kanboard\Plugin\BlobStorage\Model\BlobProjectFileModel;
+use Kanboard\Plugin\BlobStorage\Console\CleanupAvatarsCommand;
 
 class Plugin extends Base
 {
     public function initialize(): void
     {
+        if (isset($this->container['cli'])) {
+            $this->container['cli']->add(new CleanupAvatarsCommand($this->container));
+        }
+
         $this->container['objectStorage'] = function () {
             return new BlobObjectStorage(
                 $this->getConfigBlobKey(),

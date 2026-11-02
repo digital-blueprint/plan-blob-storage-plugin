@@ -43,6 +43,53 @@ class BlobObjectStorage implements ObjectStorageInterface
     }
 
     /**
+     * Collect every page before cleanup starts to avoid skipping files during deletion.
+     *
+     * @return BlobFile[]
+     * @throws BlobApiError
+     * @throws ObjectStorageException
+     */
+    public function getAvatarFiles(): array
+    {
+        $files = [];
+        $page = 1;
+        do {
+            $count = 0;
+            foreach ($this->blobApi->getFiles($page, 100, [
+                BlobApi::PREFIX_OPTION => 'avatars/',
+                BlobApi::PREFIX_STARTS_WITH_OPTION => true,
+            ]) as $file) {
+                if (!$file->getIdentifier() || !str_starts_with($file->getPrefix() ?? '', 'avatars/')) {
+                    throw new ObjectStorageException('Invalid avatar blob listing; cleanup aborted.');
+                }
+                $files[] = $file;
+                $count++;
+            }
+            $page++;
+        } while ($count > 0);
+
+        return $files;
+    }
+
+    /** @throws BlobApiError */
+    public function hasFile(string $prefix): bool
+    {
+        foreach ($this->blobApi->getFiles(1, 1, [BlobApi::PREFIX_OPTION => $prefix]) as $file) {
+            if ($file->getPrefix() === $prefix) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** @throws BlobApiError */
+    public function removeFileByIdentifier(string $identifier): void
+    {
+        $this->blobApi->removeFile($identifier);
+    }
+
+    /**
      * Fetch file contents from Object Storage.
      * Not in use...
      *
