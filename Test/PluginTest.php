@@ -1,15 +1,29 @@
 <?php
 
-require_once 'tests/units/Base.php';
+declare(strict_types=1);
+
+namespace Kanboard\Plugin\BlobStorage\Test;
 
 use Kanboard\Plugin\BlobStorage\Plugin;
+use Kanboard\Plugin\BlobStorage\Model\BlobProjectFileModel;
+use Kanboard\Plugin\BlobStorage\Model\BlobTaskFileModel;
+use KanboardTests\units\Base;
 
 class PluginTest extends Base
 {
-    public function testPlugin()
+    public function testInitializeRegistersFileModelsAndCleanupCommand(): void
     {
         $plugin = new Plugin($this->container);
-        $this->assertSame(null, $plugin->initialize());
+        $plugin->initialize();
+
+        $this->assertInstanceOf(BlobTaskFileModel::class, $this->container['taskFileModel']);
+        $this->assertInstanceOf(BlobProjectFileModel::class, $this->container['projectFileModel']);
+        $this->assertTrue($this->container['cli']->has('blob:cleanup-avatars'));
+    }
+
+    public function testPluginMetadata(): void
+    {
+        $plugin = new Plugin($this->container);
         $this->assertNotEmpty($plugin->getPluginName());
         $this->assertNotEmpty($plugin->getPluginDescription());
         $this->assertNotEmpty($plugin->getPluginAuthor());

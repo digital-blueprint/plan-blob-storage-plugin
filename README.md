@@ -20,6 +20,18 @@ composer install --no-dev
 
 Note: Plugin folder is case-sensitive.
 
+## Development and tests
+
+Install development dependencies and run the PHPUnit suite from the plugin directory:
+
+```bash
+composer install
+composer test
+```
+
+The tests do not require a running Kanboard instance, database, or Blob service.
+Add new tests to `Test/` with filenames ending in `Test.php`.
+
 ## Configuration
 The plugin can be configured in two ways: through the user interface or using the config file.
 
