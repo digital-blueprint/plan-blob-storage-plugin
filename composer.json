@@ -21,7 +21,7 @@
         "phpunit/phpunit": "^11.5",
         "phpstan/phpstan": "^2.0",
         "squizlabs/php_codesniffer": "^4.0",
-        "symfony/stopwatch": "^6.4",
+        "symfony/stopwatch": "^6.4 || ^7.0",
         "ext-pdo_sqlite": "*",
         "kanboard/kanboard": "^1.2"
     },
