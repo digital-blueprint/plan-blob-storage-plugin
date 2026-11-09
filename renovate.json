@@ -5,5 +5,11 @@
   ],
   "schedule": [
     "every weekend"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["phpunit/phpunit"],
+      "allowedVersions": "<12"
+    }
   ]
 }
