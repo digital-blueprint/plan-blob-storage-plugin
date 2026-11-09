@@ -10,6 +10,10 @@
     {
       "matchPackageNames": ["phpunit/phpunit"],
       "allowedVersions": "<12"
+    },
+    {
+      "matchPackageNames": ["symfony/*"],
+      "allowedVersions": "<8"
     }
   ]
 }
