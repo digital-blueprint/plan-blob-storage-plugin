@@ -137,7 +137,7 @@ class BlobObjectStorage implements ObjectStorageInterface
             if (BlobHelper::checkIfFileIsAllowed($filename)) {
                 $blobFile = new BlobFile();
                 $blobFile->setFile(new \SplFileInfo($filename));
-                $blobFile->setFilename(basename($filename));
+                $blobFile->setFilename(basename($key));
                 $blobFile->setPrefix($key);
                 $this->blobApi->addFile($blobFile);
 
